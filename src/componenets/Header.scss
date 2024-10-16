@@ -12,12 +12,36 @@
 		justify-content: space-between;
 		align-items: center;
 		height: 100px;
+		position: relative;
 		.logo{
 			a{
 				img{width: 150px}
 			}
 		}
 		.nav{
+			.signUpandlogin{
+				position: absolute;
+				top: 5px;
+				right: 30px;
+				li{
+					a{
+						font-size: 14px;
+						position: relative;
+						&:after{
+							content:"";
+							width: 1px;
+							height: 10px;
+							background: #3e3e3e;
+							position: absolute;
+							top: 15px;
+							right: 0;
+						}
+					}
+					&:last-child a:after{
+						width: 0;
+					}
+				}
+			}
 			ul{
 				display: flex;
 				list-style: none;
