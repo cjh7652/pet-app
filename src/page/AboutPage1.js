@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import {DataContext} from '../App';
 
-const AboutPage1 = ({data}) => {
+const AboutPage1 = () => {
 	let {id} =useParams();
 	console.log(id);
-	console.log(data)
+	const {petdata} = useContext(DataContext)
+	console.log(petdata);
 	return (
 		<div>
-			{data[id].title}
+			{petdata[id].title}
 		</div>
 	);
 };

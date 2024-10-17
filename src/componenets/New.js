@@ -36,8 +36,8 @@ const New = () => {
 				{
 					adddata.map((data, i) =>{
 						return (
-							<SwiperSlide>
-								<Card1 data={data} key={i} i={i}/>
+							<SwiperSlide key={i}>
+								<Card1 data={data}  i={i}/>
 							</SwiperSlide>
 						)
 					})

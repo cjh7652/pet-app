@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import Card from './Card';
-import data from '../data/data';
+/* import data from '../data/data'; */
 /* import {Link} from 'react-router-dom'; */
 
 import { Navigation, Pagination, Autoplay} from 'swiper/modules';
@@ -8,11 +8,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination'; 
-
+import {DataContext} from '../App';
 import './freshBox.scss';
 
 const FreshBox = () => {
-	let [petdata] = useState(data)
+	
+	const {petdata} = useContext(DataContext)
 	return (
 		<div className='freshboxWrap'>
 			<h2>Hello Fresh Box</h2>
@@ -33,8 +34,8 @@ const FreshBox = () => {
 				{
 					petdata.map((data, i) =>{
 						return (
-							<SwiperSlide>
-								<Card data={data} key={i} i={i}/>
+							<SwiperSlide key={i}>
+								<Card data={data}  i={i}/>
 							</SwiperSlide>
 						)
 					})
