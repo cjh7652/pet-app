@@ -3,6 +3,7 @@ import MainSlider from '../componenets/MainSlider';
 import Best from '../componenets/Best';
 import FreshBox from '../componenets/FreshBox';
 import New from '../componenets/New';
+import Products from '../componenets/Products'
 
 const MainPage = () => {
 	return (
@@ -18,6 +19,9 @@ const MainPage = () => {
 			</section>
 			<section className="section04">
 				<New />
+			</section>
+			<section className="section05">
+				<Products />
 			</section>
 		</div>
 	);

@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import Card from './Card';
-/* import data from '../data/data'; */
-/* import {Link} from 'react-router-dom'; */
+
 
 import { Navigation, Pagination, Autoplay} from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,7 +10,9 @@ import 'swiper/css/pagination';
 import {DataContext} from '../App';
 import './freshBox.scss';
 
+
 const FreshBox = () => {
+	
 	
 	const {petdata} = useContext(DataContext)
 	return (
