@@ -3,6 +3,7 @@ import { SiDatadog } from "react-icons/si";
 import {Button} from 'antd';
 import {DownloadOutlined} from '@ant-design/icons';
 import {Link, useNavigate} from "react-router-dom";
+import { API_URL } from '../config/constants';
 import axios from "axios";
 
 import './products.scss';
@@ -10,7 +11,7 @@ const Products = () => {
 	const [products, setProducts] = useState([]);
 	const navigate=useNavigate();
 	useEffect(()=>{
-		let url="http://localhost:8080/products";
+		let url=`${API_URL}/products`;
 		axios.get(url)
 		.then((result) =>{
 			const products=result.data.products;
@@ -35,7 +36,7 @@ const Products = () => {
 							<div className="product-card" key={idx}>
 								<Link to={`/products/${product.id}`}>
 									<div className="productImg">
-										<img src={process.env.PUBLIC_URL + product.imageUrl} alt={product.name} className="product-img" />
+										<img src={`${API_URL}/${product.imageUrl}`} alt={product.name} className="product-img" />
 									</div>
 									<div className="product-content">
 										<span className="product-name">{product.name}</span>

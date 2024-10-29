@@ -1,8 +1,26 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import './Header.scss';
+import {isActiveToken} from './AccessTokenContext';
 
 const Header = () => {
+	const [accessResult, setAccessResult]=useState(false);
+	const [user_id, setUserId]=useState(null);
+	const accessToken=localStorage.getItem('accessToken');
+	function logout(){
+		localStorage.removeItem(accessToken);
+		setAccessResult(false);
+		window.location.href="/"
+	}
+	useEffect(()=>{
+		const verifyToken = async () =>{
+			const result = await isActiveToken(accessToken);
+			console.log(result)
+			setAccessResult(result.accessResult);
+			setUserId(result.user_id);
+		}
+		verifyToken();
+	}, [accessToken, accessResult])
 	return (
 		<div className='headerWrap'>
 			<div className="header-area">
@@ -11,9 +29,18 @@ const Header = () => {
 				</div>
 				<div className="nav">
 					<ul className='signUpandlogin'>
-						<li>
-							<Link to="">로그인</Link>
-						</li>
+						{
+							accessResult == false ? (<li >
+								<ul>
+									<li className='user-info'>{user_id}님 반갑습니다.</li>
+									<li className='logout' onClick={() =>logout()}>로그아웃</li>
+								</ul>
+							</li>) :(<li>
+							<Link to="/login">로그인</Link>
+						</li>)
+						}
+						
+						
 						<li>
 							<Link to="/signup">회원가입</Link>
 						</li>

@@ -1,6 +1,8 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { IoCheckmark } from "react-icons/io5";
 import {useNavigate} from 'react-router-dom';
+import { API_URL } from '../config/constants';
+import axios from 'axios';
 
 import './signup.scss';
 
@@ -26,14 +28,15 @@ const SignUpForm = () => {
 	const [termsChecked, setTermsChecked]=useState(false);
 	const [privacyChecked, setPrivacyChecked]=useState(false);
 	const [marketingChecked, setMarketingChecked]=useState(false);
-
+	const [isSubmitted, setIsSubmitted]=useState(false);//회원가입 제출여부
+	const [isRegistered, setIsRegistered]=useState(false); //회원가입 완료 여부
 	const idRule=/^[a-z0-9]{4,16}$/;
 	const pwRule=/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,16}$/;
 	const nameRule=/^[a-zA-z가-힣]{1,20}$/;
 	const phoneRule=/^\d{8}$/;
 	const emailRule=/^[0-9a-zA-z]([-_\.]?[0-9a-zA-z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 	const birthRule=/^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
-
+	const [setUser] = useState(null);
 	const [messages, setMessages]=useState({
 		id:{text:'', color: ''},
 		pw:{text:'', color: ''},
@@ -50,6 +53,16 @@ const SignUpForm = () => {
 			[key]: {text, color}
 		}))
 	}
+
+	useEffect(()=>{
+		if(isSubmitted){
+			if(isRegistered){
+				alert('회원가입이 완료되었습니다.')
+			}else{
+				alert('회원가입이 실패했습니다.')
+			}
+		}
+	}, [isRegistered, isSubmitted])
 	
 	const handleAllCheck = () =>{
 		setAllChecked(!allChecked);
@@ -72,9 +85,36 @@ const SignUpForm = () => {
 			privacyChecked &&
 			marketingChecked 
 		){
-			history("/");
+			try{
+				axios.post(`${API_URL}/users`, {
+					user_id:id,
+					pw: pw,
+					name:name,
+					phone:phone,
+					email,
+					birth,
+					marketingChecked: marketingChecked ? "True":"False"
+				})
+				.then((result)=>{
+					console.log(result);
+					history("/", {replace:true})
+				})
+				.catch((err)=>{
+					console.error(err)
+				})
+				setIsRegistered(true);
+				setIsSubmitted(true);
+			} catch(error){
+				//db에 회원가입 정보 넣기 실패
+				console.log(error);
+				setIsRegistered(false);
+				setIsSubmitted(true);
+			}
 		}else{
-			console.log('error')
+			//조건 만족하지 않았을떄
+			console.log('error');
+			setIsRegistered(false);
+			setIsSubmitted(true);
 		}
 	}
 

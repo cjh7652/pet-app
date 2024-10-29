@@ -10,6 +10,8 @@ import SignUpForm from './page/SignUpForm';
 import data from './data/data';
 import UploadPage from './componenets/UploadPage';
 import ProductPage from './componenets/ProductPage';
+import Login from './componenets/Login';
+import { AccessTokenProvider } from './componenets/AccessTokenContext'; 
 
 const DataContext=createContext();
 function App() {
@@ -18,22 +20,25 @@ function App() {
 
   return (
 
-    	<DataContext.Provider value={{petdata}}>
-    		<div className="App">
-				<Header />
-				<Routes>
-					<Route path="/" element={<MainPage />} />
-					<Route path="/about" element={<AboutPage />} />
-					<Route path="/about/:id" element={<AboutPage2 />} />
-					<Route path="/signup" element={<SignUpForm />} />
-					<Route path="/uploadpage" element={<UploadPage />} />
-					<Route path="/products/:id" element={<ProductPage />} />
-				</Routes>
-				<Footer />
-				<QuickButton />
-		    </div>
-    	</DataContext.Provider>
-
+    	<AccessTokenProvider>
+    		<DataContext.Provider value={{petdata}}>
+	    		<div className="App">
+					<Header />
+					<Routes>
+						<Route path="/" element={<MainPage />} />
+						<Route path="/about" element={<AboutPage />} />
+						<Route path="/about/:id" element={<AboutPage2 />} />
+						<Route path="/signup" element={<SignUpForm />} />
+						<Route path="/uploadpage" element={<UploadPage />} />
+						<Route path="/products/:id" element={<ProductPage />} />
+						<Route path="/login" element={<Login />} />
+					</Routes>
+					<Footer />
+					<QuickButton />
+			    </div>
+	    	</DataContext.Provider>
+	
+    	</AccessTokenProvider>
   );
 }
 
